@@ -10,9 +10,8 @@ This repo was generated via DevOps from [@chatie/grpc](https://github.com/chatie
 
 ## Author
 
-[Huan LI](https://github.com/huan) ([李卓桓](http://linkedin.com/in/zixia)) zixia@zixia.net
-
-[![Profile of Huan LI (李卓桓) on StackOverflow](https://stackexchange.com/users/flair/265499.png)](https://stackexchange.com/users/265499)
+- [Huan LI](https://github.com/huan) ([李卓桓](http://linkedin.com/in/zixia)) zixia@zixia.net
+- [Chaofei DING (丁超飞)](https://github.com/dchaofei) [#50](https://github.com/Chatie/grpc/issues/50)
 
 ## Copyright & License
 
