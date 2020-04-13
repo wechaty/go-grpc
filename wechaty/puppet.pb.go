@@ -6,8 +6,8 @@ package wechaty
 import (
 	context "context"
 	fmt "fmt"
-	puppet "github.com/chatie/grpc/go/wechaty/puppet"
 	proto "github.com/golang/protobuf/proto"
+	puppet "github.com/wechaty/go-grpc/wechaty/puppet"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
