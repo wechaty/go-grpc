@@ -26,7 +26,7 @@ func TestProto(t *testing.T) {
 }
 ```
 
-## Author
+## Maintainers
 
 - [Huan LI](https://github.com/huan) ([李卓桓](http://linkedin.com/in/zixia)) zixia@zixia.net
 - [Chaofei DING (丁超飞)](https://github.com/dchaofei) [#50](https://github.com/Chatie/grpc/issues/50)
