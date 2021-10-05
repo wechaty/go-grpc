@@ -130,6 +130,10 @@ type PuppetClient interface {
 	//   https://cloud.google.com/apis/design/design_patterns#list_sub-collections
 	TagContactDelete(ctx context.Context, in *puppet.TagContactDeleteRequest, opts ...grpc.CallOption) (*puppet.TagContactDeleteResponse, error)
 	TagContactList(ctx context.Context, in *puppet.TagContactListRequest, opts ...grpc.CallOption) (*puppet.TagContactListResponse, error)
+	//*
+	// File/Blob download & upload
+	Download(ctx context.Context, in *puppet.DownloadRequest, opts ...grpc.CallOption) (Puppet_DownloadClient, error)
+	Upload(ctx context.Context, opts ...grpc.CallOption) (Puppet_UploadClient, error)
 }
 
 type puppetClient struct {
@@ -142,7 +146,7 @@ func NewPuppetClient(cc grpc.ClientConnInterface) PuppetClient {
 
 func (c *puppetClient) Start(ctx context.Context, in *puppet.StartRequest, opts ...grpc.CallOption) (*puppet.StartResponse, error) {
 	out := new(puppet.StartResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/Start", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/Start", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -151,7 +155,7 @@ func (c *puppetClient) Start(ctx context.Context, in *puppet.StartRequest, opts 
 
 func (c *puppetClient) Stop(ctx context.Context, in *puppet.StopRequest, opts ...grpc.CallOption) (*puppet.StopResponse, error) {
 	out := new(puppet.StopResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/Stop", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/Stop", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -160,7 +164,7 @@ func (c *puppetClient) Stop(ctx context.Context, in *puppet.StopRequest, opts ..
 
 func (c *puppetClient) Logout(ctx context.Context, in *puppet.LogoutRequest, opts ...grpc.CallOption) (*puppet.LogoutResponse, error) {
 	out := new(puppet.LogoutResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/Logout", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/Logout", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -169,7 +173,7 @@ func (c *puppetClient) Logout(ctx context.Context, in *puppet.LogoutRequest, opt
 
 func (c *puppetClient) Ding(ctx context.Context, in *puppet.DingRequest, opts ...grpc.CallOption) (*puppet.DingResponse, error) {
 	out := new(puppet.DingResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/Ding", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/Ding", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -178,7 +182,7 @@ func (c *puppetClient) Ding(ctx context.Context, in *puppet.DingRequest, opts ..
 
 func (c *puppetClient) Version(ctx context.Context, in *puppet.VersionRequest, opts ...grpc.CallOption) (*puppet.VersionResponse, error) {
 	out := new(puppet.VersionResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/Version", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/Version", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -186,7 +190,7 @@ func (c *puppetClient) Version(ctx context.Context, in *puppet.VersionRequest, o
 }
 
 func (c *puppetClient) Event(ctx context.Context, in *puppet.EventRequest, opts ...grpc.CallOption) (Puppet_EventClient, error) {
-	stream, err := c.cc.NewStream(ctx, &Puppet_ServiceDesc.Streams[0], "/wechaty.Puppet/Event", opts...)
+	stream, err := c.cc.NewStream(ctx, &Puppet_ServiceDesc.Streams[0], "/wechaty.puppet.Puppet/Event", opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -219,7 +223,7 @@ func (x *puppetEventClient) Recv() (*puppet.EventResponse, error) {
 
 func (c *puppetClient) DirtyPayload(ctx context.Context, in *puppet.DirtyPayloadRequest, opts ...grpc.CallOption) (*puppet.DirtyPayloadResponse, error) {
 	out := new(puppet.DirtyPayloadResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/DirtyPayload", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/DirtyPayload", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -228,7 +232,7 @@ func (c *puppetClient) DirtyPayload(ctx context.Context, in *puppet.DirtyPayload
 
 func (c *puppetClient) ContactSelfQRCode(ctx context.Context, in *puppet.ContactSelfQRCodeRequest, opts ...grpc.CallOption) (*puppet.ContactSelfQRCodeResponse, error) {
 	out := new(puppet.ContactSelfQRCodeResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/ContactSelfQRCode", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/ContactSelfQRCode", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -237,7 +241,7 @@ func (c *puppetClient) ContactSelfQRCode(ctx context.Context, in *puppet.Contact
 
 func (c *puppetClient) ContactSelfName(ctx context.Context, in *puppet.ContactSelfNameRequest, opts ...grpc.CallOption) (*puppet.ContactSelfNameResponse, error) {
 	out := new(puppet.ContactSelfNameResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/ContactSelfName", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/ContactSelfName", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -246,7 +250,7 @@ func (c *puppetClient) ContactSelfName(ctx context.Context, in *puppet.ContactSe
 
 func (c *puppetClient) ContactSelfSignature(ctx context.Context, in *puppet.ContactSelfSignatureRequest, opts ...grpc.CallOption) (*puppet.ContactSelfSignatureResponse, error) {
 	out := new(puppet.ContactSelfSignatureResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/ContactSelfSignature", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/ContactSelfSignature", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -255,7 +259,7 @@ func (c *puppetClient) ContactSelfSignature(ctx context.Context, in *puppet.Cont
 
 func (c *puppetClient) ContactPayload(ctx context.Context, in *puppet.ContactPayloadRequest, opts ...grpc.CallOption) (*puppet.ContactPayloadResponse, error) {
 	out := new(puppet.ContactPayloadResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/ContactPayload", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/ContactPayload", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -264,7 +268,7 @@ func (c *puppetClient) ContactPayload(ctx context.Context, in *puppet.ContactPay
 
 func (c *puppetClient) ContactAlias(ctx context.Context, in *puppet.ContactAliasRequest, opts ...grpc.CallOption) (*puppet.ContactAliasResponse, error) {
 	out := new(puppet.ContactAliasResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/ContactAlias", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/ContactAlias", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -273,7 +277,7 @@ func (c *puppetClient) ContactAlias(ctx context.Context, in *puppet.ContactAlias
 
 func (c *puppetClient) ContactAvatar(ctx context.Context, in *puppet.ContactAvatarRequest, opts ...grpc.CallOption) (*puppet.ContactAvatarResponse, error) {
 	out := new(puppet.ContactAvatarResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/ContactAvatar", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/ContactAvatar", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -282,7 +286,7 @@ func (c *puppetClient) ContactAvatar(ctx context.Context, in *puppet.ContactAvat
 
 func (c *puppetClient) ContactPhone(ctx context.Context, in *puppet.ContactPhoneRequest, opts ...grpc.CallOption) (*puppet.ContactPhoneResponse, error) {
 	out := new(puppet.ContactPhoneResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/ContactPhone", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/ContactPhone", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -291,7 +295,7 @@ func (c *puppetClient) ContactPhone(ctx context.Context, in *puppet.ContactPhone
 
 func (c *puppetClient) ContactCorporationRemark(ctx context.Context, in *puppet.ContactCorporationRemarkRequest, opts ...grpc.CallOption) (*puppet.ContactCorporationRemarkResponse, error) {
 	out := new(puppet.ContactCorporationRemarkResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/ContactCorporationRemark", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/ContactCorporationRemark", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -300,7 +304,7 @@ func (c *puppetClient) ContactCorporationRemark(ctx context.Context, in *puppet.
 
 func (c *puppetClient) ContactDescription(ctx context.Context, in *puppet.ContactDescriptionRequest, opts ...grpc.CallOption) (*puppet.ContactDescriptionResponse, error) {
 	out := new(puppet.ContactDescriptionResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/ContactDescription", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/ContactDescription", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -309,7 +313,7 @@ func (c *puppetClient) ContactDescription(ctx context.Context, in *puppet.Contac
 
 func (c *puppetClient) ContactList(ctx context.Context, in *puppet.ContactListRequest, opts ...grpc.CallOption) (*puppet.ContactListResponse, error) {
 	out := new(puppet.ContactListResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/ContactList", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/ContactList", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -318,7 +322,7 @@ func (c *puppetClient) ContactList(ctx context.Context, in *puppet.ContactListRe
 
 func (c *puppetClient) FriendshipPayload(ctx context.Context, in *puppet.FriendshipPayloadRequest, opts ...grpc.CallOption) (*puppet.FriendshipPayloadResponse, error) {
 	out := new(puppet.FriendshipPayloadResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/FriendshipPayload", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/FriendshipPayload", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -327,7 +331,7 @@ func (c *puppetClient) FriendshipPayload(ctx context.Context, in *puppet.Friends
 
 func (c *puppetClient) FriendshipSearchPhone(ctx context.Context, in *puppet.FriendshipSearchPhoneRequest, opts ...grpc.CallOption) (*puppet.FriendshipSearchPhoneResponse, error) {
 	out := new(puppet.FriendshipSearchPhoneResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/FriendshipSearchPhone", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/FriendshipSearchPhone", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -336,7 +340,7 @@ func (c *puppetClient) FriendshipSearchPhone(ctx context.Context, in *puppet.Fri
 
 func (c *puppetClient) FriendshipSearchWeixin(ctx context.Context, in *puppet.FriendshipSearchWeixinRequest, opts ...grpc.CallOption) (*puppet.FriendshipSearchWeixinResponse, error) {
 	out := new(puppet.FriendshipSearchWeixinResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/FriendshipSearchWeixin", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/FriendshipSearchWeixin", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -345,7 +349,7 @@ func (c *puppetClient) FriendshipSearchWeixin(ctx context.Context, in *puppet.Fr
 
 func (c *puppetClient) FriendshipAdd(ctx context.Context, in *puppet.FriendshipAddRequest, opts ...grpc.CallOption) (*puppet.FriendshipAddResponse, error) {
 	out := new(puppet.FriendshipAddResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/FriendshipAdd", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/FriendshipAdd", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -354,7 +358,7 @@ func (c *puppetClient) FriendshipAdd(ctx context.Context, in *puppet.FriendshipA
 
 func (c *puppetClient) FriendshipAccept(ctx context.Context, in *puppet.FriendshipAcceptRequest, opts ...grpc.CallOption) (*puppet.FriendshipAcceptResponse, error) {
 	out := new(puppet.FriendshipAcceptResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/FriendshipAccept", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/FriendshipAccept", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -364,7 +368,7 @@ func (c *puppetClient) FriendshipAccept(ctx context.Context, in *puppet.Friendsh
 // Deprecated: Do not use.
 func (c *puppetClient) MessageFile(ctx context.Context, in *puppet.MessageFileRequest, opts ...grpc.CallOption) (*puppet.MessageFileResponse, error) {
 	out := new(puppet.MessageFileResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/MessageFile", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/MessageFile", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -374,7 +378,7 @@ func (c *puppetClient) MessageFile(ctx context.Context, in *puppet.MessageFileRe
 // Deprecated: Do not use.
 func (c *puppetClient) MessageImage(ctx context.Context, in *puppet.MessageImageRequest, opts ...grpc.CallOption) (*puppet.MessageImageResponse, error) {
 	out := new(puppet.MessageImageResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/MessageImage", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/MessageImage", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -384,7 +388,7 @@ func (c *puppetClient) MessageImage(ctx context.Context, in *puppet.MessageImage
 // Deprecated: Do not use.
 func (c *puppetClient) MessageSendFile(ctx context.Context, in *puppet.MessageSendFileRequest, opts ...grpc.CallOption) (*puppet.MessageSendFileResponse, error) {
 	out := new(puppet.MessageSendFileResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/MessageSendFile", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/MessageSendFile", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -393,7 +397,7 @@ func (c *puppetClient) MessageSendFile(ctx context.Context, in *puppet.MessageSe
 
 func (c *puppetClient) MessagePayload(ctx context.Context, in *puppet.MessagePayloadRequest, opts ...grpc.CallOption) (*puppet.MessagePayloadResponse, error) {
 	out := new(puppet.MessagePayloadResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/MessagePayload", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/MessagePayload", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -402,7 +406,7 @@ func (c *puppetClient) MessagePayload(ctx context.Context, in *puppet.MessagePay
 
 func (c *puppetClient) MessageContact(ctx context.Context, in *puppet.MessageContactRequest, opts ...grpc.CallOption) (*puppet.MessageContactResponse, error) {
 	out := new(puppet.MessageContactResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/MessageContact", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/MessageContact", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -410,7 +414,7 @@ func (c *puppetClient) MessageContact(ctx context.Context, in *puppet.MessageCon
 }
 
 func (c *puppetClient) MessageFileStream(ctx context.Context, in *puppet.MessageFileStreamRequest, opts ...grpc.CallOption) (Puppet_MessageFileStreamClient, error) {
-	stream, err := c.cc.NewStream(ctx, &Puppet_ServiceDesc.Streams[1], "/wechaty.Puppet/MessageFileStream", opts...)
+	stream, err := c.cc.NewStream(ctx, &Puppet_ServiceDesc.Streams[1], "/wechaty.puppet.Puppet/MessageFileStream", opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -442,7 +446,7 @@ func (x *puppetMessageFileStreamClient) Recv() (*puppet.MessageFileStreamRespons
 }
 
 func (c *puppetClient) MessageImageStream(ctx context.Context, in *puppet.MessageImageStreamRequest, opts ...grpc.CallOption) (Puppet_MessageImageStreamClient, error) {
-	stream, err := c.cc.NewStream(ctx, &Puppet_ServiceDesc.Streams[2], "/wechaty.Puppet/MessageImageStream", opts...)
+	stream, err := c.cc.NewStream(ctx, &Puppet_ServiceDesc.Streams[2], "/wechaty.puppet.Puppet/MessageImageStream", opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -475,7 +479,7 @@ func (x *puppetMessageImageStreamClient) Recv() (*puppet.MessageImageStreamRespo
 
 func (c *puppetClient) MessageMiniProgram(ctx context.Context, in *puppet.MessageMiniProgramRequest, opts ...grpc.CallOption) (*puppet.MessageMiniProgramResponse, error) {
 	out := new(puppet.MessageMiniProgramResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/MessageMiniProgram", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/MessageMiniProgram", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -484,7 +488,7 @@ func (c *puppetClient) MessageMiniProgram(ctx context.Context, in *puppet.Messag
 
 func (c *puppetClient) MessageUrl(ctx context.Context, in *puppet.MessageUrlRequest, opts ...grpc.CallOption) (*puppet.MessageUrlResponse, error) {
 	out := new(puppet.MessageUrlResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/MessageUrl", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/MessageUrl", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -493,7 +497,7 @@ func (c *puppetClient) MessageUrl(ctx context.Context, in *puppet.MessageUrlRequ
 
 func (c *puppetClient) MessageRecall(ctx context.Context, in *puppet.MessageRecallRequest, opts ...grpc.CallOption) (*puppet.MessageRecallResponse, error) {
 	out := new(puppet.MessageRecallResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/MessageRecall", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/MessageRecall", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -502,7 +506,7 @@ func (c *puppetClient) MessageRecall(ctx context.Context, in *puppet.MessageReca
 
 func (c *puppetClient) MessageForward(ctx context.Context, in *puppet.MessageForwardRequest, opts ...grpc.CallOption) (*puppet.MessageForwardResponse, error) {
 	out := new(puppet.MessageForwardResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/MessageForward", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/MessageForward", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -511,7 +515,7 @@ func (c *puppetClient) MessageForward(ctx context.Context, in *puppet.MessageFor
 
 func (c *puppetClient) MessageLocation(ctx context.Context, in *puppet.MessageLocationRequest, opts ...grpc.CallOption) (*puppet.MessageLocationResponse, error) {
 	out := new(puppet.MessageLocationResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/MessageLocation", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/MessageLocation", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -520,7 +524,7 @@ func (c *puppetClient) MessageLocation(ctx context.Context, in *puppet.MessageLo
 
 func (c *puppetClient) MessageSendContact(ctx context.Context, in *puppet.MessageSendContactRequest, opts ...grpc.CallOption) (*puppet.MessageSendContactResponse, error) {
 	out := new(puppet.MessageSendContactResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/MessageSendContact", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/MessageSendContact", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -528,7 +532,7 @@ func (c *puppetClient) MessageSendContact(ctx context.Context, in *puppet.Messag
 }
 
 func (c *puppetClient) MessageSendFileStream(ctx context.Context, opts ...grpc.CallOption) (Puppet_MessageSendFileStreamClient, error) {
-	stream, err := c.cc.NewStream(ctx, &Puppet_ServiceDesc.Streams[3], "/wechaty.Puppet/MessageSendFileStream", opts...)
+	stream, err := c.cc.NewStream(ctx, &Puppet_ServiceDesc.Streams[3], "/wechaty.puppet.Puppet/MessageSendFileStream", opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -563,7 +567,7 @@ func (x *puppetMessageSendFileStreamClient) CloseAndRecv() (*puppet.MessageSendF
 
 func (c *puppetClient) MessageSendText(ctx context.Context, in *puppet.MessageSendTextRequest, opts ...grpc.CallOption) (*puppet.MessageSendTextResponse, error) {
 	out := new(puppet.MessageSendTextResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/MessageSendText", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/MessageSendText", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -572,7 +576,7 @@ func (c *puppetClient) MessageSendText(ctx context.Context, in *puppet.MessageSe
 
 func (c *puppetClient) MessageSendMiniProgram(ctx context.Context, in *puppet.MessageSendMiniProgramRequest, opts ...grpc.CallOption) (*puppet.MessageSendMiniProgramResponse, error) {
 	out := new(puppet.MessageSendMiniProgramResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/MessageSendMiniProgram", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/MessageSendMiniProgram", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -581,7 +585,7 @@ func (c *puppetClient) MessageSendMiniProgram(ctx context.Context, in *puppet.Me
 
 func (c *puppetClient) MessageSendUrl(ctx context.Context, in *puppet.MessageSendUrlRequest, opts ...grpc.CallOption) (*puppet.MessageSendUrlResponse, error) {
 	out := new(puppet.MessageSendUrlResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/MessageSendUrl", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/MessageSendUrl", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -590,7 +594,7 @@ func (c *puppetClient) MessageSendUrl(ctx context.Context, in *puppet.MessageSen
 
 func (c *puppetClient) MessageSendLocation(ctx context.Context, in *puppet.MessageSendLocationRequest, opts ...grpc.CallOption) (*puppet.MessageSendLocationResponse, error) {
 	out := new(puppet.MessageSendLocationResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/MessageSendLocation", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/MessageSendLocation", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -599,7 +603,7 @@ func (c *puppetClient) MessageSendLocation(ctx context.Context, in *puppet.Messa
 
 func (c *puppetClient) RoomPayload(ctx context.Context, in *puppet.RoomPayloadRequest, opts ...grpc.CallOption) (*puppet.RoomPayloadResponse, error) {
 	out := new(puppet.RoomPayloadResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/RoomPayload", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/RoomPayload", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -608,7 +612,7 @@ func (c *puppetClient) RoomPayload(ctx context.Context, in *puppet.RoomPayloadRe
 
 func (c *puppetClient) RoomList(ctx context.Context, in *puppet.RoomListRequest, opts ...grpc.CallOption) (*puppet.RoomListResponse, error) {
 	out := new(puppet.RoomListResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/RoomList", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/RoomList", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -617,7 +621,7 @@ func (c *puppetClient) RoomList(ctx context.Context, in *puppet.RoomListRequest,
 
 func (c *puppetClient) RoomAdd(ctx context.Context, in *puppet.RoomAddRequest, opts ...grpc.CallOption) (*puppet.RoomAddResponse, error) {
 	out := new(puppet.RoomAddResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/RoomAdd", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/RoomAdd", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -626,7 +630,7 @@ func (c *puppetClient) RoomAdd(ctx context.Context, in *puppet.RoomAddRequest, o
 
 func (c *puppetClient) RoomAvatar(ctx context.Context, in *puppet.RoomAvatarRequest, opts ...grpc.CallOption) (*puppet.RoomAvatarResponse, error) {
 	out := new(puppet.RoomAvatarResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/RoomAvatar", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/RoomAvatar", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -635,7 +639,7 @@ func (c *puppetClient) RoomAvatar(ctx context.Context, in *puppet.RoomAvatarRequ
 
 func (c *puppetClient) RoomCreate(ctx context.Context, in *puppet.RoomCreateRequest, opts ...grpc.CallOption) (*puppet.RoomCreateResponse, error) {
 	out := new(puppet.RoomCreateResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/RoomCreate", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/RoomCreate", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -644,7 +648,7 @@ func (c *puppetClient) RoomCreate(ctx context.Context, in *puppet.RoomCreateRequ
 
 func (c *puppetClient) RoomDel(ctx context.Context, in *puppet.RoomDelRequest, opts ...grpc.CallOption) (*puppet.RoomDelResponse, error) {
 	out := new(puppet.RoomDelResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/RoomDel", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/RoomDel", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -653,7 +657,7 @@ func (c *puppetClient) RoomDel(ctx context.Context, in *puppet.RoomDelRequest, o
 
 func (c *puppetClient) RoomQuit(ctx context.Context, in *puppet.RoomQuitRequest, opts ...grpc.CallOption) (*puppet.RoomQuitResponse, error) {
 	out := new(puppet.RoomQuitResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/RoomQuit", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/RoomQuit", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -662,7 +666,7 @@ func (c *puppetClient) RoomQuit(ctx context.Context, in *puppet.RoomQuitRequest,
 
 func (c *puppetClient) RoomTopic(ctx context.Context, in *puppet.RoomTopicRequest, opts ...grpc.CallOption) (*puppet.RoomTopicResponse, error) {
 	out := new(puppet.RoomTopicResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/RoomTopic", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/RoomTopic", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -671,7 +675,7 @@ func (c *puppetClient) RoomTopic(ctx context.Context, in *puppet.RoomTopicReques
 
 func (c *puppetClient) RoomQRCode(ctx context.Context, in *puppet.RoomQRCodeRequest, opts ...grpc.CallOption) (*puppet.RoomQRCodeResponse, error) {
 	out := new(puppet.RoomQRCodeResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/RoomQRCode", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/RoomQRCode", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -680,7 +684,7 @@ func (c *puppetClient) RoomQRCode(ctx context.Context, in *puppet.RoomQRCodeRequ
 
 func (c *puppetClient) RoomAnnounce(ctx context.Context, in *puppet.RoomAnnounceRequest, opts ...grpc.CallOption) (*puppet.RoomAnnounceResponse, error) {
 	out := new(puppet.RoomAnnounceResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/RoomAnnounce", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/RoomAnnounce", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -689,7 +693,7 @@ func (c *puppetClient) RoomAnnounce(ctx context.Context, in *puppet.RoomAnnounce
 
 func (c *puppetClient) RoomMemberPayload(ctx context.Context, in *puppet.RoomMemberPayloadRequest, opts ...grpc.CallOption) (*puppet.RoomMemberPayloadResponse, error) {
 	out := new(puppet.RoomMemberPayloadResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/RoomMemberPayload", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/RoomMemberPayload", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -698,7 +702,7 @@ func (c *puppetClient) RoomMemberPayload(ctx context.Context, in *puppet.RoomMem
 
 func (c *puppetClient) RoomMemberList(ctx context.Context, in *puppet.RoomMemberListRequest, opts ...grpc.CallOption) (*puppet.RoomMemberListResponse, error) {
 	out := new(puppet.RoomMemberListResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/RoomMemberList", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/RoomMemberList", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -707,7 +711,7 @@ func (c *puppetClient) RoomMemberList(ctx context.Context, in *puppet.RoomMember
 
 func (c *puppetClient) RoomInvitationPayload(ctx context.Context, in *puppet.RoomInvitationPayloadRequest, opts ...grpc.CallOption) (*puppet.RoomInvitationPayloadResponse, error) {
 	out := new(puppet.RoomInvitationPayloadResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/RoomInvitationPayload", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/RoomInvitationPayload", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -716,7 +720,7 @@ func (c *puppetClient) RoomInvitationPayload(ctx context.Context, in *puppet.Roo
 
 func (c *puppetClient) RoomInvitationAccept(ctx context.Context, in *puppet.RoomInvitationAcceptRequest, opts ...grpc.CallOption) (*puppet.RoomInvitationAcceptResponse, error) {
 	out := new(puppet.RoomInvitationAcceptResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/RoomInvitationAccept", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/RoomInvitationAccept", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -725,7 +729,7 @@ func (c *puppetClient) RoomInvitationAccept(ctx context.Context, in *puppet.Room
 
 func (c *puppetClient) TagContactAdd(ctx context.Context, in *puppet.TagContactAddRequest, opts ...grpc.CallOption) (*puppet.TagContactAddResponse, error) {
 	out := new(puppet.TagContactAddResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/TagContactAdd", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/TagContactAdd", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -734,7 +738,7 @@ func (c *puppetClient) TagContactAdd(ctx context.Context, in *puppet.TagContactA
 
 func (c *puppetClient) TagContactRemove(ctx context.Context, in *puppet.TagContactRemoveRequest, opts ...grpc.CallOption) (*puppet.TagContactRemoveResponse, error) {
 	out := new(puppet.TagContactRemoveResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/TagContactRemove", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/TagContactRemove", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -743,7 +747,7 @@ func (c *puppetClient) TagContactRemove(ctx context.Context, in *puppet.TagConta
 
 func (c *puppetClient) TagContactDelete(ctx context.Context, in *puppet.TagContactDeleteRequest, opts ...grpc.CallOption) (*puppet.TagContactDeleteResponse, error) {
 	out := new(puppet.TagContactDeleteResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/TagContactDelete", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/TagContactDelete", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -752,11 +756,77 @@ func (c *puppetClient) TagContactDelete(ctx context.Context, in *puppet.TagConta
 
 func (c *puppetClient) TagContactList(ctx context.Context, in *puppet.TagContactListRequest, opts ...grpc.CallOption) (*puppet.TagContactListResponse, error) {
 	out := new(puppet.TagContactListResponse)
-	err := c.cc.Invoke(ctx, "/wechaty.Puppet/TagContactList", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/wechaty.puppet.Puppet/TagContactList", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
+}
+
+func (c *puppetClient) Download(ctx context.Context, in *puppet.DownloadRequest, opts ...grpc.CallOption) (Puppet_DownloadClient, error) {
+	stream, err := c.cc.NewStream(ctx, &Puppet_ServiceDesc.Streams[4], "/wechaty.puppet.Puppet/Download", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &puppetDownloadClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type Puppet_DownloadClient interface {
+	Recv() (*puppet.DownloadResponse, error)
+	grpc.ClientStream
+}
+
+type puppetDownloadClient struct {
+	grpc.ClientStream
+}
+
+func (x *puppetDownloadClient) Recv() (*puppet.DownloadResponse, error) {
+	m := new(puppet.DownloadResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *puppetClient) Upload(ctx context.Context, opts ...grpc.CallOption) (Puppet_UploadClient, error) {
+	stream, err := c.cc.NewStream(ctx, &Puppet_ServiceDesc.Streams[5], "/wechaty.puppet.Puppet/Upload", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &puppetUploadClient{stream}
+	return x, nil
+}
+
+type Puppet_UploadClient interface {
+	Send(*puppet.UploadRequest) error
+	CloseAndRecv() (*puppet.UploadResponse, error)
+	grpc.ClientStream
+}
+
+type puppetUploadClient struct {
+	grpc.ClientStream
+}
+
+func (x *puppetUploadClient) Send(m *puppet.UploadRequest) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *puppetUploadClient) CloseAndRecv() (*puppet.UploadResponse, error) {
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	m := new(puppet.UploadResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
 }
 
 // PuppetServer is the server API for Puppet service.
@@ -874,6 +944,10 @@ type PuppetServer interface {
 	//   https://cloud.google.com/apis/design/design_patterns#list_sub-collections
 	TagContactDelete(context.Context, *puppet.TagContactDeleteRequest) (*puppet.TagContactDeleteResponse, error)
 	TagContactList(context.Context, *puppet.TagContactListRequest) (*puppet.TagContactListResponse, error)
+	//*
+	// File/Blob download & upload
+	Download(*puppet.DownloadRequest, Puppet_DownloadServer) error
+	Upload(Puppet_UploadServer) error
 	mustEmbedUnimplementedPuppetServer()
 }
 
@@ -1055,6 +1129,12 @@ func (UnimplementedPuppetServer) TagContactDelete(context.Context, *puppet.TagCo
 func (UnimplementedPuppetServer) TagContactList(context.Context, *puppet.TagContactListRequest) (*puppet.TagContactListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TagContactList not implemented")
 }
+func (UnimplementedPuppetServer) Download(*puppet.DownloadRequest, Puppet_DownloadServer) error {
+	return status.Errorf(codes.Unimplemented, "method Download not implemented")
+}
+func (UnimplementedPuppetServer) Upload(Puppet_UploadServer) error {
+	return status.Errorf(codes.Unimplemented, "method Upload not implemented")
+}
 func (UnimplementedPuppetServer) mustEmbedUnimplementedPuppetServer() {}
 
 // UnsafePuppetServer may be embedded to opt out of forward compatibility for this service.
@@ -1078,7 +1158,7 @@ func _Puppet_Start_Handler(srv interface{}, ctx context.Context, dec func(interf
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/Start",
+		FullMethod: "/wechaty.puppet.Puppet/Start",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).Start(ctx, req.(*puppet.StartRequest))
@@ -1096,7 +1176,7 @@ func _Puppet_Stop_Handler(srv interface{}, ctx context.Context, dec func(interfa
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/Stop",
+		FullMethod: "/wechaty.puppet.Puppet/Stop",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).Stop(ctx, req.(*puppet.StopRequest))
@@ -1114,7 +1194,7 @@ func _Puppet_Logout_Handler(srv interface{}, ctx context.Context, dec func(inter
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/Logout",
+		FullMethod: "/wechaty.puppet.Puppet/Logout",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).Logout(ctx, req.(*puppet.LogoutRequest))
@@ -1132,7 +1212,7 @@ func _Puppet_Ding_Handler(srv interface{}, ctx context.Context, dec func(interfa
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/Ding",
+		FullMethod: "/wechaty.puppet.Puppet/Ding",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).Ding(ctx, req.(*puppet.DingRequest))
@@ -1150,7 +1230,7 @@ func _Puppet_Version_Handler(srv interface{}, ctx context.Context, dec func(inte
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/Version",
+		FullMethod: "/wechaty.puppet.Puppet/Version",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).Version(ctx, req.(*puppet.VersionRequest))
@@ -1189,7 +1269,7 @@ func _Puppet_DirtyPayload_Handler(srv interface{}, ctx context.Context, dec func
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/DirtyPayload",
+		FullMethod: "/wechaty.puppet.Puppet/DirtyPayload",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).DirtyPayload(ctx, req.(*puppet.DirtyPayloadRequest))
@@ -1207,7 +1287,7 @@ func _Puppet_ContactSelfQRCode_Handler(srv interface{}, ctx context.Context, dec
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/ContactSelfQRCode",
+		FullMethod: "/wechaty.puppet.Puppet/ContactSelfQRCode",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).ContactSelfQRCode(ctx, req.(*puppet.ContactSelfQRCodeRequest))
@@ -1225,7 +1305,7 @@ func _Puppet_ContactSelfName_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/ContactSelfName",
+		FullMethod: "/wechaty.puppet.Puppet/ContactSelfName",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).ContactSelfName(ctx, req.(*puppet.ContactSelfNameRequest))
@@ -1243,7 +1323,7 @@ func _Puppet_ContactSelfSignature_Handler(srv interface{}, ctx context.Context, 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/ContactSelfSignature",
+		FullMethod: "/wechaty.puppet.Puppet/ContactSelfSignature",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).ContactSelfSignature(ctx, req.(*puppet.ContactSelfSignatureRequest))
@@ -1261,7 +1341,7 @@ func _Puppet_ContactPayload_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/ContactPayload",
+		FullMethod: "/wechaty.puppet.Puppet/ContactPayload",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).ContactPayload(ctx, req.(*puppet.ContactPayloadRequest))
@@ -1279,7 +1359,7 @@ func _Puppet_ContactAlias_Handler(srv interface{}, ctx context.Context, dec func
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/ContactAlias",
+		FullMethod: "/wechaty.puppet.Puppet/ContactAlias",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).ContactAlias(ctx, req.(*puppet.ContactAliasRequest))
@@ -1297,7 +1377,7 @@ func _Puppet_ContactAvatar_Handler(srv interface{}, ctx context.Context, dec fun
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/ContactAvatar",
+		FullMethod: "/wechaty.puppet.Puppet/ContactAvatar",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).ContactAvatar(ctx, req.(*puppet.ContactAvatarRequest))
@@ -1315,7 +1395,7 @@ func _Puppet_ContactPhone_Handler(srv interface{}, ctx context.Context, dec func
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/ContactPhone",
+		FullMethod: "/wechaty.puppet.Puppet/ContactPhone",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).ContactPhone(ctx, req.(*puppet.ContactPhoneRequest))
@@ -1333,7 +1413,7 @@ func _Puppet_ContactCorporationRemark_Handler(srv interface{}, ctx context.Conte
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/ContactCorporationRemark",
+		FullMethod: "/wechaty.puppet.Puppet/ContactCorporationRemark",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).ContactCorporationRemark(ctx, req.(*puppet.ContactCorporationRemarkRequest))
@@ -1351,7 +1431,7 @@ func _Puppet_ContactDescription_Handler(srv interface{}, ctx context.Context, de
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/ContactDescription",
+		FullMethod: "/wechaty.puppet.Puppet/ContactDescription",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).ContactDescription(ctx, req.(*puppet.ContactDescriptionRequest))
@@ -1369,7 +1449,7 @@ func _Puppet_ContactList_Handler(srv interface{}, ctx context.Context, dec func(
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/ContactList",
+		FullMethod: "/wechaty.puppet.Puppet/ContactList",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).ContactList(ctx, req.(*puppet.ContactListRequest))
@@ -1387,7 +1467,7 @@ func _Puppet_FriendshipPayload_Handler(srv interface{}, ctx context.Context, dec
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/FriendshipPayload",
+		FullMethod: "/wechaty.puppet.Puppet/FriendshipPayload",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).FriendshipPayload(ctx, req.(*puppet.FriendshipPayloadRequest))
@@ -1405,7 +1485,7 @@ func _Puppet_FriendshipSearchPhone_Handler(srv interface{}, ctx context.Context,
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/FriendshipSearchPhone",
+		FullMethod: "/wechaty.puppet.Puppet/FriendshipSearchPhone",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).FriendshipSearchPhone(ctx, req.(*puppet.FriendshipSearchPhoneRequest))
@@ -1423,7 +1503,7 @@ func _Puppet_FriendshipSearchWeixin_Handler(srv interface{}, ctx context.Context
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/FriendshipSearchWeixin",
+		FullMethod: "/wechaty.puppet.Puppet/FriendshipSearchWeixin",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).FriendshipSearchWeixin(ctx, req.(*puppet.FriendshipSearchWeixinRequest))
@@ -1441,7 +1521,7 @@ func _Puppet_FriendshipAdd_Handler(srv interface{}, ctx context.Context, dec fun
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/FriendshipAdd",
+		FullMethod: "/wechaty.puppet.Puppet/FriendshipAdd",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).FriendshipAdd(ctx, req.(*puppet.FriendshipAddRequest))
@@ -1459,7 +1539,7 @@ func _Puppet_FriendshipAccept_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/FriendshipAccept",
+		FullMethod: "/wechaty.puppet.Puppet/FriendshipAccept",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).FriendshipAccept(ctx, req.(*puppet.FriendshipAcceptRequest))
@@ -1477,7 +1557,7 @@ func _Puppet_MessageFile_Handler(srv interface{}, ctx context.Context, dec func(
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/MessageFile",
+		FullMethod: "/wechaty.puppet.Puppet/MessageFile",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).MessageFile(ctx, req.(*puppet.MessageFileRequest))
@@ -1495,7 +1575,7 @@ func _Puppet_MessageImage_Handler(srv interface{}, ctx context.Context, dec func
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/MessageImage",
+		FullMethod: "/wechaty.puppet.Puppet/MessageImage",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).MessageImage(ctx, req.(*puppet.MessageImageRequest))
@@ -1513,7 +1593,7 @@ func _Puppet_MessageSendFile_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/MessageSendFile",
+		FullMethod: "/wechaty.puppet.Puppet/MessageSendFile",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).MessageSendFile(ctx, req.(*puppet.MessageSendFileRequest))
@@ -1531,7 +1611,7 @@ func _Puppet_MessagePayload_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/MessagePayload",
+		FullMethod: "/wechaty.puppet.Puppet/MessagePayload",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).MessagePayload(ctx, req.(*puppet.MessagePayloadRequest))
@@ -1549,7 +1629,7 @@ func _Puppet_MessageContact_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/MessageContact",
+		FullMethod: "/wechaty.puppet.Puppet/MessageContact",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).MessageContact(ctx, req.(*puppet.MessageContactRequest))
@@ -1609,7 +1689,7 @@ func _Puppet_MessageMiniProgram_Handler(srv interface{}, ctx context.Context, de
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/MessageMiniProgram",
+		FullMethod: "/wechaty.puppet.Puppet/MessageMiniProgram",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).MessageMiniProgram(ctx, req.(*puppet.MessageMiniProgramRequest))
@@ -1627,7 +1707,7 @@ func _Puppet_MessageUrl_Handler(srv interface{}, ctx context.Context, dec func(i
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/MessageUrl",
+		FullMethod: "/wechaty.puppet.Puppet/MessageUrl",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).MessageUrl(ctx, req.(*puppet.MessageUrlRequest))
@@ -1645,7 +1725,7 @@ func _Puppet_MessageRecall_Handler(srv interface{}, ctx context.Context, dec fun
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/MessageRecall",
+		FullMethod: "/wechaty.puppet.Puppet/MessageRecall",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).MessageRecall(ctx, req.(*puppet.MessageRecallRequest))
@@ -1663,7 +1743,7 @@ func _Puppet_MessageForward_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/MessageForward",
+		FullMethod: "/wechaty.puppet.Puppet/MessageForward",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).MessageForward(ctx, req.(*puppet.MessageForwardRequest))
@@ -1681,7 +1761,7 @@ func _Puppet_MessageLocation_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/MessageLocation",
+		FullMethod: "/wechaty.puppet.Puppet/MessageLocation",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).MessageLocation(ctx, req.(*puppet.MessageLocationRequest))
@@ -1699,7 +1779,7 @@ func _Puppet_MessageSendContact_Handler(srv interface{}, ctx context.Context, de
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/MessageSendContact",
+		FullMethod: "/wechaty.puppet.Puppet/MessageSendContact",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).MessageSendContact(ctx, req.(*puppet.MessageSendContactRequest))
@@ -1743,7 +1823,7 @@ func _Puppet_MessageSendText_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/MessageSendText",
+		FullMethod: "/wechaty.puppet.Puppet/MessageSendText",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).MessageSendText(ctx, req.(*puppet.MessageSendTextRequest))
@@ -1761,7 +1841,7 @@ func _Puppet_MessageSendMiniProgram_Handler(srv interface{}, ctx context.Context
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/MessageSendMiniProgram",
+		FullMethod: "/wechaty.puppet.Puppet/MessageSendMiniProgram",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).MessageSendMiniProgram(ctx, req.(*puppet.MessageSendMiniProgramRequest))
@@ -1779,7 +1859,7 @@ func _Puppet_MessageSendUrl_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/MessageSendUrl",
+		FullMethod: "/wechaty.puppet.Puppet/MessageSendUrl",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).MessageSendUrl(ctx, req.(*puppet.MessageSendUrlRequest))
@@ -1797,7 +1877,7 @@ func _Puppet_MessageSendLocation_Handler(srv interface{}, ctx context.Context, d
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/MessageSendLocation",
+		FullMethod: "/wechaty.puppet.Puppet/MessageSendLocation",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).MessageSendLocation(ctx, req.(*puppet.MessageSendLocationRequest))
@@ -1815,7 +1895,7 @@ func _Puppet_RoomPayload_Handler(srv interface{}, ctx context.Context, dec func(
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/RoomPayload",
+		FullMethod: "/wechaty.puppet.Puppet/RoomPayload",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).RoomPayload(ctx, req.(*puppet.RoomPayloadRequest))
@@ -1833,7 +1913,7 @@ func _Puppet_RoomList_Handler(srv interface{}, ctx context.Context, dec func(int
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/RoomList",
+		FullMethod: "/wechaty.puppet.Puppet/RoomList",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).RoomList(ctx, req.(*puppet.RoomListRequest))
@@ -1851,7 +1931,7 @@ func _Puppet_RoomAdd_Handler(srv interface{}, ctx context.Context, dec func(inte
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/RoomAdd",
+		FullMethod: "/wechaty.puppet.Puppet/RoomAdd",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).RoomAdd(ctx, req.(*puppet.RoomAddRequest))
@@ -1869,7 +1949,7 @@ func _Puppet_RoomAvatar_Handler(srv interface{}, ctx context.Context, dec func(i
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/RoomAvatar",
+		FullMethod: "/wechaty.puppet.Puppet/RoomAvatar",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).RoomAvatar(ctx, req.(*puppet.RoomAvatarRequest))
@@ -1887,7 +1967,7 @@ func _Puppet_RoomCreate_Handler(srv interface{}, ctx context.Context, dec func(i
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/RoomCreate",
+		FullMethod: "/wechaty.puppet.Puppet/RoomCreate",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).RoomCreate(ctx, req.(*puppet.RoomCreateRequest))
@@ -1905,7 +1985,7 @@ func _Puppet_RoomDel_Handler(srv interface{}, ctx context.Context, dec func(inte
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/RoomDel",
+		FullMethod: "/wechaty.puppet.Puppet/RoomDel",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).RoomDel(ctx, req.(*puppet.RoomDelRequest))
@@ -1923,7 +2003,7 @@ func _Puppet_RoomQuit_Handler(srv interface{}, ctx context.Context, dec func(int
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/RoomQuit",
+		FullMethod: "/wechaty.puppet.Puppet/RoomQuit",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).RoomQuit(ctx, req.(*puppet.RoomQuitRequest))
@@ -1941,7 +2021,7 @@ func _Puppet_RoomTopic_Handler(srv interface{}, ctx context.Context, dec func(in
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/RoomTopic",
+		FullMethod: "/wechaty.puppet.Puppet/RoomTopic",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).RoomTopic(ctx, req.(*puppet.RoomTopicRequest))
@@ -1959,7 +2039,7 @@ func _Puppet_RoomQRCode_Handler(srv interface{}, ctx context.Context, dec func(i
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/RoomQRCode",
+		FullMethod: "/wechaty.puppet.Puppet/RoomQRCode",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).RoomQRCode(ctx, req.(*puppet.RoomQRCodeRequest))
@@ -1977,7 +2057,7 @@ func _Puppet_RoomAnnounce_Handler(srv interface{}, ctx context.Context, dec func
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/RoomAnnounce",
+		FullMethod: "/wechaty.puppet.Puppet/RoomAnnounce",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).RoomAnnounce(ctx, req.(*puppet.RoomAnnounceRequest))
@@ -1995,7 +2075,7 @@ func _Puppet_RoomMemberPayload_Handler(srv interface{}, ctx context.Context, dec
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/RoomMemberPayload",
+		FullMethod: "/wechaty.puppet.Puppet/RoomMemberPayload",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).RoomMemberPayload(ctx, req.(*puppet.RoomMemberPayloadRequest))
@@ -2013,7 +2093,7 @@ func _Puppet_RoomMemberList_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/RoomMemberList",
+		FullMethod: "/wechaty.puppet.Puppet/RoomMemberList",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).RoomMemberList(ctx, req.(*puppet.RoomMemberListRequest))
@@ -2031,7 +2111,7 @@ func _Puppet_RoomInvitationPayload_Handler(srv interface{}, ctx context.Context,
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/RoomInvitationPayload",
+		FullMethod: "/wechaty.puppet.Puppet/RoomInvitationPayload",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).RoomInvitationPayload(ctx, req.(*puppet.RoomInvitationPayloadRequest))
@@ -2049,7 +2129,7 @@ func _Puppet_RoomInvitationAccept_Handler(srv interface{}, ctx context.Context, 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/RoomInvitationAccept",
+		FullMethod: "/wechaty.puppet.Puppet/RoomInvitationAccept",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).RoomInvitationAccept(ctx, req.(*puppet.RoomInvitationAcceptRequest))
@@ -2067,7 +2147,7 @@ func _Puppet_TagContactAdd_Handler(srv interface{}, ctx context.Context, dec fun
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/TagContactAdd",
+		FullMethod: "/wechaty.puppet.Puppet/TagContactAdd",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).TagContactAdd(ctx, req.(*puppet.TagContactAddRequest))
@@ -2085,7 +2165,7 @@ func _Puppet_TagContactRemove_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/TagContactRemove",
+		FullMethod: "/wechaty.puppet.Puppet/TagContactRemove",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).TagContactRemove(ctx, req.(*puppet.TagContactRemoveRequest))
@@ -2103,7 +2183,7 @@ func _Puppet_TagContactDelete_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/TagContactDelete",
+		FullMethod: "/wechaty.puppet.Puppet/TagContactDelete",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).TagContactDelete(ctx, req.(*puppet.TagContactDeleteRequest))
@@ -2121,7 +2201,7 @@ func _Puppet_TagContactList_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wechaty.Puppet/TagContactList",
+		FullMethod: "/wechaty.puppet.Puppet/TagContactList",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PuppetServer).TagContactList(ctx, req.(*puppet.TagContactListRequest))
@@ -2129,11 +2209,58 @@ func _Puppet_TagContactList_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Puppet_Download_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(puppet.DownloadRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(PuppetServer).Download(m, &puppetDownloadServer{stream})
+}
+
+type Puppet_DownloadServer interface {
+	Send(*puppet.DownloadResponse) error
+	grpc.ServerStream
+}
+
+type puppetDownloadServer struct {
+	grpc.ServerStream
+}
+
+func (x *puppetDownloadServer) Send(m *puppet.DownloadResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _Puppet_Upload_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(PuppetServer).Upload(&puppetUploadServer{stream})
+}
+
+type Puppet_UploadServer interface {
+	SendAndClose(*puppet.UploadResponse) error
+	Recv() (*puppet.UploadRequest, error)
+	grpc.ServerStream
+}
+
+type puppetUploadServer struct {
+	grpc.ServerStream
+}
+
+func (x *puppetUploadServer) SendAndClose(m *puppet.UploadResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func (x *puppetUploadServer) Recv() (*puppet.UploadRequest, error) {
+	m := new(puppet.UploadRequest)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // Puppet_ServiceDesc is the grpc.ServiceDesc for Puppet service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Puppet_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "wechaty.Puppet",
+	ServiceName: "wechaty.puppet.Puppet",
 	HandlerType: (*PuppetServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -2372,6 +2499,16 @@ var Puppet_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "MessageSendFileStream",
 			Handler:       _Puppet_MessageSendFileStream_Handler,
+			ClientStreams: true,
+		},
+		{
+			StreamName:    "Download",
+			Handler:       _Puppet_Download_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "Upload",
+			Handler:       _Puppet_Upload_Handler,
 			ClientStreams: true,
 		},
 	},
